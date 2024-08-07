@@ -29,17 +29,17 @@ class PersonnalModelViewSet(
     """
     pass
 
-def createAdmin(validate_data):
+def createAdmin(validated_data):
     return Admin.objects.create(
         is_superuser =True,
         is_staff=True,
-        **validate_data
+        **validated_data
     )
 
-def createAdmin(validate_data):
+def createParent(validated_data):
     return Parent.objects.create(
         is_staff=True,
-        **validate_data
+        **validated_data
     )
 
 class AdminUser(PersonnalModelViewSet):
@@ -65,16 +65,16 @@ class UserRegister(viewsets.ModelViewSet):
         
         if serializers.is_valid():
 
-            role = serializers.validate_data.get('role')
-            password = serializers.valisate_data.get('password')
-            email = serializers.validate_data.get('email')
+            role = serializers.validated_data.get('role')
+            password = serializers.validated_data.get('password')
+            email = serializers.validated_data.get('email')
             
             serializers.validated_data['password']  =  make_password(password)
 
             if role == Admin.Role.ADMIN:
-                user= Admin.objects.create(serializers.validate_data)
+                user= createAdmin(serializers.validated_data)
             elif role == Parent.Role.PARENT:
-                user = Parent.object.vreate(serializers.validate_data)
+                user = createParent(serializers.validated_data)
             else:
                 raise serializers.ValidationError('This role can not exist ')
             #verifiction if the user have be succesfuli create
