@@ -76,16 +76,19 @@ class UserRegister(viewsets.ModelViewSet):
             elif role == Parent.Role.PARENT:
                 user = createParent(serializers.validated_data)
             else:
-                raise serializers.ValidationError('This role can not exist ')
+                return Response({'message':'This role can not exist '},status=status.HTTP_400_BAD_REQUEST)
             #verifiction if the user have be succesfuli create
             
             if user is  None:
                 return Response({'message':'error this user can not create '},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
             user = authenticate(email = email, password=password)
             if not user:
-                raise serializers.ValidationError('data is not valid')
+                
+                return Response({'message':'data is not valid'},status=status.HTTP_400_BAD_REQUEST)
             if not user.is_active:
-                raise serializers.ValidationError('user is not activated ')
+                return Response({'message':'user is not activated'},status=status.HTTP_400_BAD_REQUEST)
+
+
 
             login(request, user)
             token = RefreshToken.for_user(user)
@@ -132,14 +135,6 @@ class UserLogin(APIView):
         login(request, user)
         
         token = RefreshToken.for_user(user)
-        # level_data = LevelSerializer(user.level_id).data if user.level_id else None
-        # sector_data = SectorSerializer(user.sector_id).data if user.sector_id else None
-        # token['role'] = user.role
-        # token['firstName'] = user.firstName
-        # token['lastName']  = user.lastName
-        # token['email']  = user.email
-        # token['phone_number'] = user.phone_number
-        # token['password'] = user.password
 
 
         response_data = {

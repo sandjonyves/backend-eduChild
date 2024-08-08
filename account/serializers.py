@@ -11,7 +11,7 @@ class UserSerializer(serializers.ModelSerializer):
     # user_type = serializers.IntegerField(write_only = True)
     class Meta:
         model = CustomUser
-        fields = ('firstName','lastName','email','password','role')
+        fields = ('username','email','password','role')
 
 class UserLoginSerializer(TokenObtainPairSerializer):
     email = serializers.CharField()
