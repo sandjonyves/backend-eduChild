@@ -22,7 +22,8 @@ class PersonnalModelViewSet(
                    mixins.UpdateModelMixin,
                    mixins.DestroyModelMixin,
                    mixins.ListModelMixin,
-                   viewsets.GenericViewSet):
+                   viewsets.GenericViewSet
+                   ):
     """
     A viewset that provides default `create()`, `retrieve()`, `update()`,
     `partial_update()`, `destroy()` and `list()` actions.
