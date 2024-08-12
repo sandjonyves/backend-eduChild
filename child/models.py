@@ -7,6 +7,8 @@ from account.models import Parent
 
 
 class Child(models.Model):
+    firstName = models.CharField(max_length=255)
+    lastName = models.CharField(max_length=255)
     name = models.CharField(max_length=255)
     email = models.EmailField(max_length=255)
     dateOfBirth = models.DateField()
